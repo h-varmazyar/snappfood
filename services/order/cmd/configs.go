@@ -8,9 +8,11 @@ import (
 )
 
 type Configs struct {
-	GRPCPort   netext.Port      `yaml:"grpc_port"`
-	HttpPort   netext.Port      `yaml:"http_port"`
-	DB         *db.Configs      `yaml:"db"`
-	ManagerApp *manager.Configs `yaml:"manager_app"`
-	ReaderApp  *reader.Configs  `yaml:"reader_app"`
+	ServiceName string           `yaml:"service_name"`
+	Version     string           `yaml:"version"`
+	GRPCPort    netext.Port      `yaml:"grpc_port"`
+	HttpPort    netext.Port      `yaml:"http_port"`
+	DB          *db.Configs      `yaml:"db"`
+	ManagerApp  *manager.Configs `yaml:"manager_app"`
+	ReaderApp   *reader.Configs  `yaml:"reader_app"`
 }

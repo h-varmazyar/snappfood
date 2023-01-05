@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/h-varmazyar/snappfood/pkg/serverext"
 	"github.com/h-varmazyar/snappfood/services/order/internal/app/manager"
+	"github.com/h-varmazyar/snappfood/services/order/internal/app/reader"
 	"github.com/h-varmazyar/snappfood/services/order/internal/pkg/db"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -47,6 +48,11 @@ func initializingApps(ctx context.Context, logger *log.Logger, dbInstance *db.DB
 	service := serverext.New(logger)
 	var managerApp *manager.App
 	managerApp, err = manager.NewApp(ctx, logger, dbInstance, configs.ManagerApp)
+	if err != nil {
+		logger.WithError(err).Panicf("failed to initiate reader app")
+	}
+
+	_, err = reader.NewApp(ctx, logger, dbInstance, configs.ReaderApp)
 	if err != nil {
 		logger.WithError(err).Panicf("failed to initiate reader app")
 	}

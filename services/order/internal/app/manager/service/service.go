@@ -37,9 +37,9 @@ func (s *Service) RegisterServer(server *grpc.Server) {
 
 func (s *Service) CreateOrder(ctx context.Context, req *orderApi.ManagerCreateOrderReq) (*api.Void, error) {
 	order := &entity.Order{
-		ID:    req.OrderID,
-		Price: req.Price,
-		Title: req.Title,
+		OrderID: req.OrderID,
+		Price:   req.Price,
+		Title:   req.Title,
 	}
 
 	err := s.db.Create(ctx, order)

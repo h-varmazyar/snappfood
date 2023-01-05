@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/go-redis/redis/v8"
 	"github.com/h-varmazyar/snappfood/pkg/errors"
 	"github.com/h-varmazyar/snappfood/services/order/internal/pkg/entity"
@@ -25,8 +26,11 @@ func NewManagerRedisRepository(ctx context.Context, logger *log.Logger, db *redi
 }
 
 func (db *managerRedisRepository) Create(ctx context.Context, order *entity.Order) error {
-	err := db.redisDB.RPush(ctx, "order", order).Err()
+	orderBytes, err := json.Marshal(order)
 	if err != nil {
+		db.logger.WithError(err).Error("cannot marshal order")
+	}
+	if err = db.redisDB.RPush(ctx, "order", string(orderBytes)).Err(); err != nil {
 		db.logger.WithError(err).Error("failed to push order into redis")
 		return err
 	}
