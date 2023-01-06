@@ -20,8 +20,8 @@ func NewApp(ctx context.Context, logger *log.Logger, db *db.DB, configs *Configs
 		return nil, err
 	}
 
-	managerService := service.NewService(ctx, logger, configs.ServiceConfigs, repositoryInstance)
-	managerController := controller.NewController(logger, configs.ControllerConfigs, managerService)
+	managerService := service.NewService(ctx, logger, repositoryInstance)
+	managerController := controller.NewController(logger, managerService)
 
 	return &App{
 		Service:    managerService,

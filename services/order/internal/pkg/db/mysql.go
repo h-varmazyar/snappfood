@@ -19,7 +19,7 @@ func newMySql(ctx context.Context, dsn string) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	return nil, nil
+	return db, nil
 }
 
 func migrateModels(db *gorm.DB) error {

@@ -5,5 +5,5 @@ import (
 )
 
 type Configs struct {
-	WorkerConfigs *workers.Configs `yaml:"worker_configs"`
+	WorkerConfigs *workers.Configs `yaml:"worker_configs" mapstructure:"worker_configs"`
 }

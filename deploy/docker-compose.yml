@@ -1,0 +1,83 @@
+version: "3.1"
+
+networks:
+  infra:
+
+volumes:
+  mysql_data:
+  redis_data:
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - infra
+    ports:
+      - 8080:8080
+      - 3306:3306
+    restart: always
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    command: redis-server redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redis_data:/var/lib/redis
+    networks:
+      - infra
+    ports:
+      - 6379:6379
+    restart: always
+
+#  order:
+#    container_name: order
+#    image: order:v1.0.0
+#    build:
+#      context: ..
+#      dockerfile: services/order/deploy/Dockerfile
+#    volumes:
+#      - /srv/configs:/app/configs
+#      - /srv/logs:/app/logs
+#    environment:
+#      - MODE=${CI_ENVIRONMENT_NAME}
+#      - HEALTH_PORT=5000
+#      - HTTP_PORT=9081
+#      - GRPC_PORT=6565
+#      - DEFAULT_LANG=${DEFAULT_LANG}
+#      - LOG_LEVEL=${LOG_LEVEL}
+#      - LOG_FILE=/app/logs/finance2.log
+#      - LOG_SIZE=${LOG_SIZE}
+#      - LOG_AGE=${LOG_AGE}
+#      - POSTGRES_CONNECTION=/app/configs/postgres_finance2.secret
+#      - JWT_PUBLIC_KEY=/app/configs/jwt_public.secret
+#      - STATIC_TOKEN=/app/configs/static_token.secret
+#      - POD_TOKEN=/app/configs/pod_token.secret
+#      - POD_PLATFORM_URL=http://sandbox.pod.ir/srv
+#      - POD_PRIVATE_URL=https://sandbox.pod.ir:1033/v1
+#      - EXTERNAL_URL=https://api.staging.podro.com/finance2
+#      - AUTO_CHECKOUT=true
+#      - CHECKOUT_CRON=* * * * *
+#      - RABBITMQ_CONNECTION=/app/configs/rabbitmq.secret
+#      - RABBITMQ_ANNOUNCE_QUEUE=announce
+#      - PUBLISH_CRON=* * * * *
+#      - RABBITMQ_PAYMENT_QUEUE=payment2
+#      - REDIS_ADDRESS=${REDIS_ADDRESS}
+#      - REDIS_PASSWORD=/app/configs/redis.secret
+#      - REDIS_LOCK_DB=0
+#      - PIN_ACCOUNT_ID=123e4567-e89b-12d3-a456-426614174000
+#      - PODRO_LINK=https://api.staging.podro.com/finance2/receipts/%v/link
+#      - GUILDS=NoGuild:OTHER_GUILD,ShopGuild:OTHER_GUILD,MarketingGuild:OTHER_GUILD,ShipmentGuild:OTHER_GUILD
+#      - POD_CHECKOUT_DURATION=20m
+#      - WORKER_READ_COUNT=10
+#    restart: always
+#    networks:
+#      - infra
+#    ports:
+#      - 127.0.0.1:9090:9090

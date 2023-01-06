@@ -11,13 +11,11 @@ import (
 type Controller struct {
 	managerService *service.Service
 	logger         *log.Logger
-	configs        *Configs
 }
 
-func NewController(logger *log.Logger, configs *Configs, managerService *service.Service) *Controller {
+func NewController(logger *log.Logger, managerService *service.Service) *Controller {
 	return &Controller{
 		logger:         logger,
-		configs:        configs,
 		managerService: managerService,
 	}
 }

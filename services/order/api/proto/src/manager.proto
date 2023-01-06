@@ -1,10 +1,12 @@
 syntax = "proto3";
 package orderApi;
-option go_package = "github.com/h-varmazyar/snappfood/api/proto";
-import "api/proto/src/misc.proto";
+option go_package = "github.com/h-varmazyar/snappfood/api/proto;orderApi";
 
 service ManagerService{
-  rpc CreateOrder(ManagerCreateOrderReq) returns (api.Void);
+  rpc CreateOrder(ManagerCreateOrderReq) returns (Void);
+}
+
+message Void {
 }
 
 message ManagerCreateOrderReq{

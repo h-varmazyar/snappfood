@@ -4,7 +4,7 @@
 // - protoc             v3.12.4
 // source: services/order/api/proto/src/manager.proto
 
-package proto
+package orderApi
 
 import (
 	context "context"

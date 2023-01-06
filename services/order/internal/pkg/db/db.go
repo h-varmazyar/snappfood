@@ -14,11 +14,11 @@ type DB struct {
 func NewDatabase(ctx context.Context, configs *Configs) (*DB, error) {
 	db := new(DB)
 	if configs.MySqlDSN != "" {
-		postgres, err := newMySql(ctx, configs.MySqlDSN)
+		mysql, err := newMySql(ctx, configs.MySqlDSN)
 		if err != nil {
 			return nil, err
 		}
-		db.MySqlDB = postgres
+		db.MySqlDB = mysql
 	}
 
 	if configs.RedisAddress != "" {
