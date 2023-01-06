@@ -20,7 +20,7 @@ func NewController(logger *log.Logger, managerService *service.Service) *Control
 	}
 }
 
-func (c *Controller) RegisterRoutes(router *gin.Engine) {
+func (c *Controller) RegisterRoutes(router *gin.RouterGroup) {
 	orderRoutes := router.Group("/order")
 	orderRoutes.POST("/", c.createOrder)
 }

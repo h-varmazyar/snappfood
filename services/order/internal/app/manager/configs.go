@@ -6,6 +6,7 @@ import (
 )
 
 type Configs struct {
+	OrderQueue        string              `yaml:"order_queue" mapstructure:"order_queue"`
 	ServiceConfigs    *service.Configs    `yaml:"service_configs" mapstructure:"service_configs"`
 	ControllerConfigs *controller.Configs `yaml:"controller_configs" mapstructure:"controller_configs"`
 }

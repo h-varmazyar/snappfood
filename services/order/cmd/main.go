@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/h-varmazyar/snappfood/pkg/serverext"
+	"github.com/h-varmazyar/snappfood/services/order/configs"
 	"github.com/h-varmazyar/snappfood/services/order/internal/app/manager"
 	"github.com/h-varmazyar/snappfood/services/order/internal/app/reader"
 	"github.com/h-varmazyar/snappfood/services/order/internal/pkg/db"
@@ -39,9 +41,15 @@ func main() {
 func loadConfigs() (*Configs, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("../configs")
+	viper.AddConfigPath("./configs")
+	viper.AddConfigPath("$HOME/configs")
+	viper.AddConfigPath("/app/configs")
+	viper.AddConfigPath("/configs")
 	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
+		localErr := viper.ReadConfig(bytes.NewBuffer(configs.DefaultConfig))
+		if localErr != nil {
+			return nil, localErr
+		}
 	}
 
 	conf := new(Configs)
@@ -78,7 +86,8 @@ func initializingApps(ctx context.Context, logger *log.Logger, dbInstance *db.DB
 
 	service.Serve(configs.HttpPort, func(listener net.Listener) error {
 		router := gin.Default()
-		managerApp.Controller.RegisterRoutes(router)
+		api := router.Group("/api")
+		managerApp.Controller.RegisterRoutes(api)
 		return http.Serve(listener, router)
 	})
 

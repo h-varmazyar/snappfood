@@ -13,15 +13,17 @@ import (
 type managerRedisRepository struct {
 	redisDB *redis.Client
 	logger  *log.Logger
+	queue   string
 }
 
-func NewManagerRedisRepository(ctx context.Context, logger *log.Logger, db *redis.Client) (*managerRedisRepository, error) {
+func NewManagerRedisRepository(ctx context.Context, logger *log.Logger, queue string, db *redis.Client) (*managerRedisRepository, error) {
 	if db == nil {
 		return nil, errors.New(ctx, codes.Internal).AddDetailF("invalid db instance")
 	}
 	return &managerRedisRepository{
 		redisDB: db,
 		logger:  logger,
+		queue:   queue,
 	}, nil
 }
 
@@ -30,7 +32,7 @@ func (db *managerRedisRepository) Create(ctx context.Context, order *entity.Orde
 	if err != nil {
 		db.logger.WithError(err).Error("cannot marshal order")
 	}
-	if err = db.redisDB.RPush(ctx, "order", string(orderBytes)).Err(); err != nil {
+	if err = db.redisDB.RPush(ctx, db.queue, string(orderBytes)).Err(); err != nil {
 		db.logger.WithError(err).Error("failed to push order into redis")
 		return err
 	}

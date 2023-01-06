@@ -33,6 +33,7 @@ func (s *Service) RegisterServer(server *grpc.Server) {
 }
 
 func (s *Service) CreateOrder(ctx context.Context, req *orderApi.ManagerCreateOrderReq) (*orderApi.Void, error) {
+	s.logger.Infof("creating order...")
 	order := &entity.Order{
 		OrderID: req.OrderID,
 		Price:   req.Price,

@@ -15,7 +15,7 @@ type App struct {
 }
 
 func NewApp(ctx context.Context, logger *log.Logger, db *db.DB, configs *Configs) (*App, error) {
-	repositoryInstance, err := repository.NewRepository(ctx, logger, db)
+	repositoryInstance, err := repository.NewRepository(ctx, logger, configs.OrderQueue, db)
 	if err != nil {
 		return nil, err
 	}

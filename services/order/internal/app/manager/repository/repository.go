@@ -11,6 +11,6 @@ type ManagerRepository interface {
 	Create(ctx context.Context, candle *entity.Order) error
 }
 
-func NewRepository(ctx context.Context, logger *log.Logger, db *db.DB) (ManagerRepository, error) {
-	return NewManagerRedisRepository(ctx, logger, db.RedisDB)
+func NewRepository(ctx context.Context, logger *log.Logger, queue string, db *db.DB) (ManagerRepository, error) {
+	return NewManagerRedisRepository(ctx, logger, queue, db.RedisDB)
 }
