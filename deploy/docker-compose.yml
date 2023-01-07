@@ -43,7 +43,7 @@ services:
       dockerfile: services/order/deploy/Dockerfile
     volumes:
       - /srv/configs/order:/app/configs
-      - ~/logs:/app/logs
+      - /srv/logs/order:/app/logs
     restart: always
     environment:
       - service_name=order
