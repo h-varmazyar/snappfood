@@ -37,7 +37,7 @@ services:
 
   order:
     container_name: order
-    image: order:v1.0.1
+    image: order:v1.0.2
     build:
       context: ..
       dockerfile: services/order/deploy/Dockerfile

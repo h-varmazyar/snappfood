@@ -42,7 +42,6 @@ func loadConfigs() (*Configs, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./configs")
-	viper.AddConfigPath("$HOME/configs")
 	viper.AddConfigPath("/app/configs")
 	viper.AddConfigPath("/configs")
 	if err := viper.ReadInConfig(); err != nil {
@@ -93,23 +92,3 @@ func initializingApps(ctx context.Context, logger *log.Logger, dbInstance *db.DB
 
 	service.Start(configs.ServiceName, configs.Version)
 }
-
-//func registerHandlers(server *serverext.Server, port uint16, apps ) {
-//	server.Serve(port, func(listener net.Listener) error {
-//		router := gin.Default()
-//
-//		vouchers.NewHandler(configs.VouchersConfigs, logger).RegisterRoutes(router)
-//
-//		return http.Serve(listener, router)
-//	})
-//}
-//
-//func registerServices(server *serverext.Server, port netext.Port) {
-//	server.Serve(port, func(listener net.Listener) error {
-//		router := gin.Default()
-//
-//		vouchers.NewHandler(configs.VouchersConfigs, logger).RegisterRoutes(router)
-//
-//		return http.Serve(listener, router)
-//	})
-//}
